@@ -39,8 +39,8 @@ class ApplicationRepository:
                 term=row[2],
                 author=author,
                 executor=executor,
-                description=row[6],
-                status=row[5]
+                status=row[6],
+                description=row[5]
             ))
         return apps
 
@@ -52,7 +52,7 @@ class ApplicationRepository:
                 raise ValueError("Автор заявки обязателен!")
 
             create_app = '''
-                INSERT INTO application ("номер заявки", "дата создания", "срок выполнения", "автор", "исполнитель", "статус", "описание" )
+                INSERT INTO application ("номер заявки", "дата создания", "срок выполнения", "автор", "исполнитель", "описание", "статус" )
                  VALUES (%s, %s, %s, %s, %s, %s, %s)
                  ON CONFLICT ("номер заявки") DO NOTHING
             '''
@@ -81,7 +81,7 @@ class ApplicationRepository:
             return None
 
         cursor.close()
-        return Application(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+        return self._rows_to_list([row])[0]
 
     def updateAplication(self, application):
         cursor = db_config.get_cursor(self.conn)
