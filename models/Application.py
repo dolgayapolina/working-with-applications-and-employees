@@ -25,5 +25,3 @@ class Application:
 
     def is_overdue(self, current_date):
         return current_date > self.date + self.term
-
-

@@ -48,8 +48,8 @@ def create_tables(connection, cursor):
     "срок выполнения" int NOT NULL, 
     "автор" int NOT NULL,
     "исполнитель" int,
-    "статус" int NOT NULL DEFAULT 1,
     "описание" text NOT NULL,
+    "статус" int NOT NULL DEFAULT 1
     CONSTRAINT app_pk PRIMARY KEY ("номер заявки"), 
     CONSTRAINT fk1_app FOREIGN KEY ("автор") REFERENCES stuff("паспорт") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk2_app FOREIGN KEY ("исполнитель") REFERENCES stuff("паспорт") ON DELETE CASCADE ON UPDATE CASCADE,
