@@ -81,3 +81,11 @@ class StuffRepository:
             raise e
         finally:
             cursor.close()
+
+    def allStuff(self):
+        cursor = db_config.get_cursor(self.conn)
+        try:
+            cursor.execute('SELECT "паспорт" FROM stuff ORDER BY "паспорт"')
+            return [row[0] for row in cursor.fetchall()]
+        finally:
+            cursor.close()

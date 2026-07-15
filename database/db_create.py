@@ -43,17 +43,17 @@ def create_tables(connection, cursor):
 
     create_table_application = '''
     CREATE TABLE IF NOT EXISTS application (
-    "номер заявки" int NOT NULL, 
-    "дата создания" date NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-    "срок выполнения" int NOT NULL, 
-    "автор" int NOT NULL,
-    "исполнитель" int,
-    "описание" text NOT NULL,
-    "статус" int NOT NULL DEFAULT 1
-    CONSTRAINT app_pk PRIMARY KEY ("номер заявки"), 
-    CONSTRAINT fk1_app FOREIGN KEY ("автор") REFERENCES stuff("паспорт") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk2_app FOREIGN KEY ("исполнитель") REFERENCES stuff("паспорт") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk3_app FOREIGN KEY ("статус") REFERENCES status("id") ON DELETE CASCADE ON UPDATE CASCADE
+        "номер заявки" int NOT NULL, 
+        "дата создания" date NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+        "срок выполнения" int NOT NULL, 
+        "автор" int NOT NULL,
+        "исполнитель" int,
+        "описание" text NOT NULL,
+        "статус" int NOT NULL DEFAULT 1,
+        CONSTRAINT app_pk PRIMARY KEY ("номер заявки"), 
+        CONSTRAINT fk1_app FOREIGN KEY ("автор") REFERENCES stuff("паспорт") ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT fk2_app FOREIGN KEY ("исполнитель") REFERENCES stuff("паспорт") ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT fk3_app FOREIGN KEY ("статус") REFERENCES status("id") ON DELETE CASCADE ON UPDATE CASCADE
     )
     '''
     cursor.execute(create_table_positions)
@@ -62,5 +62,32 @@ def create_tables(connection, cursor):
 
     cursor.execute(create_table_status)
     cursor.execute(create_table_application)
+
+    cursor.execute("""
+            INSERT INTO division ("id", "подразделение") VALUES 
+            (1, 'IT отдел'),
+            (2, 'HR отдел'),
+            (3, 'Бухгалтерия'),
+            (4, 'Отдел продаж'),
+            (5, 'Маркетинг')
+            ON CONFLICT ("id") DO NOTHING
+    """)
+    cursor.execute("""
+            INSERT INTO positions ("id", "должность", "зарплата") VALUES 
+            (1, 'Разработчик', 100000),
+            (2, 'Тестировщик', 80000),
+            (3, 'Менеджер', 120000),
+            (4, 'Аналитик', 110000),
+            (5, 'Дизайнер', 90000)
+            ON CONFLICT ("id") DO NOTHING
+    """)
+
+    cursor.execute("""
+            INSERT INTO status ("id", "статус") VALUES 
+            (1, 'Новая'), 
+            (2, 'В работе'), 
+            (3, 'Выполнена')
+            ON CONFLICT ("id") DO NOTHING
+    """)
 
     connection.commit()

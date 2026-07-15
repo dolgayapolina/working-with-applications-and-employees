@@ -83,7 +83,7 @@ class ApplicationRepository:
         cursor.close()
         return self._rows_to_list([row])[0]
 
-    def updateAplication(self, application):
+    def updateApplication(self, application):
         cursor = db_config.get_cursor(self.conn)
 
         try:
@@ -136,7 +136,7 @@ class ApplicationRepository:
         finally:
             cursor.close()
 
-    def filterByExecutor(self, stuff):
+    def filterByExecutor(self, pasport):
         cursor = db_config.get_cursor(self.conn)
 
         try:
@@ -145,7 +145,7 @@ class ApplicationRepository:
                 WHERE "исполнитель" = %s
                 ORDER BY "номер заявки"
             '''
-            cursor.execute(select_app, (stuff.pasport,))
+            cursor.execute(select_app, (pasport,))
             return self._rows_to_list(cursor.fetchall())
 
         except Exception as e:
@@ -208,3 +208,4 @@ class ApplicationRepository:
             raise e
         finally:
             cursor.close()
+
