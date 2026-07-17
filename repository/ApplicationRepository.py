@@ -179,7 +179,7 @@ class ApplicationRepository:
         try:
             select_app = '''
                 SELECT * FROM application 
-                WHERE ("дата создания" + "срок выполнения") > CURRENT_DATE
+                WHERE ("дата создания" + "срок выполнения") < CURRENT_DATE
                 ORDER BY ("дата создания" + "срок выполнения") ASC
             '''
             cursor.execute(select_app)
