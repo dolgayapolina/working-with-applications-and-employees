@@ -24,7 +24,7 @@ def main():
 
         app_service = ApplicationService(app_repo)
 
-        generate_test_data(stuff_repo, app_repo)
+        # generate_test_data(stuff_repo, app_repo)
 
         test_stuff = stuff_repo.readStuff(999999)
 
@@ -60,8 +60,8 @@ def main():
         print()
 
         # По исполнителю
-        print("Заявки по исполнителю (паспорт=100001):")
-        executor_obj = Stuff(pasport=100001, surname="", name="", patronymic="", division=None, position=None)
+        print("Заявки по исполнителю (паспорт=999999):")
+        executor_obj = Stuff(pasport=999999, surname="", name="", patronymic="", division=None, position=None)
         by_executor = app_repo.filterByExecutor(executor_obj.pasport)
         print(f"Найдено: {len(by_executor)} заявок")
         print()
@@ -82,28 +82,32 @@ def main():
         print(
             "Вывести все просроченные заявки конкретного исполнителя, находящиеся в статусе «В работе», отсортированные по сроку выполнения")
 
-        executor_pasport = 100001
-        print(f"Исполнитель: паспорт {executor_pasport}")
+        executor_pasport = 888888
 
+        print(f"Исполнитель: паспорт {888888}")
+        start = time.time()
         final_result = app_repo.finalView(executor_pasport)
-        print(f"Найдено заявок: {len(final_result)}")
-
-        if len(final_result) > 0:
-            for i, app in enumerate(final_result[:], 1):
-                print(f"{i}. Заявка №{app.id}")
+        result_time = time.time() - start
+        for one_app in final_result:
+            print(f"Заявка номер {one_app.id} сорк выполнения {one_app.term}")
+        print(len(final_result))
+        print(f"Время выполнения запроса с оптимизацией: {result_time}")
 
         print()
         print("Отчеты")
+        print()
 
         print("Количество заявок по статусам:")
         for i in [(1, "Новая"), (2, "В работе"), (3, "Выполнена")]:
             apps = app_repo.filterByStatus(i[0])
             print(f"Найдено: {len(apps)} заявок в статусе {i[1]}")
+        print()
 
         # Количество просроченных
         print("Количество просроченных заявок:")
         overdue_count = app_repo.filterByOverdue()
-        print(f"  Всего просроченных: {len(overdue_count)}")
+        print(f"Всего просроченных: {len(overdue_count)}")
+        print()
 
         executos = stuff_repo.allStuff()
         for pasport in executos:

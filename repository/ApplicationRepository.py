@@ -197,8 +197,8 @@ class ApplicationRepository:
         try:
             select_app = '''
                 SELECT * FROM application
-                WHERE application."статус" = 2 AND ("дата создания" + "срок выполнения") < CURRENT_DATE AND application."исполнитель"=%s
-                ORDER BY ("дата создания" + "срок выполнения") ASC
+                WHERE application."статус" = 2 AND application."исполнитель"=%s
+                ORDER BY "срок выполнения" ASC
             '''
             cursor.execute(select_app, (pasport,))
             return self._rows_to_list(cursor.fetchall())

@@ -90,4 +90,13 @@ def create_tables(connection, cursor):
             ON CONFLICT ("id") DO NOTHING
     """)
 
+    # Создание индексов для оптимизации
+    create_indexes = '''
+            CREATE INDEX IF NOT EXISTS idx_app_executor ON application ("исполнитель");
+            CREATE INDEX IF NOT EXISTS idx_app_status ON application ("статус");
+            CREATE INDEX IF NOT EXISTS idx_app_deadline ON application (("дата создания" + "срок выполнения"));
+    '''
+    cursor.execute(create_indexes)
+
+
     connection.commit()
